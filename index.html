@@ -1,0 +1,87 @@
+<head>
+    <title>xor</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <style>
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0;
+    }
+    input[type=number] {
+        width: 40px
+    }
+    </style>
+</head>
+<body>
+  <div>
+  <div style='width: 661px; height: 333px; background-image: url("bg.png"); background-repeat: no-repeat;'>
+    <div>
+        <div style="position: absolute; left: 70px; top: 50px;">
+            <input type="number" value="1" id="A">
+        </div>
+        <div style="position: absolute; left: 70px; top: 200px;">
+            <input type="number" value="1" id="B">
+        </div>
+
+        <div style="position: absolute; left: 233px; top: 50px;">
+            <input type="number" value="1" id="AA">
+        </div>
+        <div style="position: absolute; left: 233px; top: 233px;">
+            <input type="number" value="1" id="BB">
+        </div>
+
+        <div style="position: absolute; left: 190px; top: 110px;">
+            <input type="number" value="-1.2" id="AB">
+        </div>
+        <div style="position: absolute; left: 190px; top: 190px;">
+            <input type="number" value="-1.2" id="BA">
+        </div>
+        
+        <div style="position: absolute; left: 520px; top: 50px;">
+            <input type="number" value="0.5" id="A2">
+        </div>
+        <div style="position: absolute; left: 520px; top: 233px;">
+            <input type="number" value="0.5" id="B2">
+        </div>        
+    </div>
+
+    <div style="position: absolute; left: 378px; top: 40px;" id="nA_in">?</div>
+    <div style="position: absolute; left: 378px; top: 65px;" id="nA_out">?</div>
+    <div style="position: absolute; left: 378px; top: 90px;"> <input type="number" value="-1" id="nA_bias"></div>
+    
+    <div style="position: absolute; left: 378px; top: 190px;" id="nB_in">?</div>
+    <div style="position: absolute; left: 378px; top: 215px;" id="nB_out">?</div>
+    <div style="position: absolute; left: 378px; top: 240px;"> <input type="number" value="-1" id="nB_bias"></div>    
+
+    <div style="position: absolute; left: 610px; top: 105px;" id="nC_in">?</div>
+    <div style="position: absolute; left: 610px; top: 130px;" id="nC_out">?</div>
+    <div style="position: absolute; left: 610px; top: 155px;"><input type="number" value="0.21" id="nC_bias"></div>
+  </div>
+  <div>
+      <button name="calc" onclick="calc()" style="height:50px; width:300px">calc</button>
+  </div>
+  </div>
+
+  <script>
+      function calc() {
+          var nA_input = Number($("#A").val() * $("#AA").val() + $("#B").val() * $("#BA").val());
+          $("#nA_in").text(nA_input.toFixed(3));
+          $("#nA_out").text(sigmoid(nA_input + Number($("#nA_bias").val())).toFixed(3));
+
+          var nB_input = Number($("#B").val() * $("#BB").val() + $("#A").val() * $("#AB").val());
+          $("#nB_in").text(nB_input.toFixed(3));
+          $("#nB_out").text(sigmoid(nB_input + Number($("#nB_bias").val())).toFixed(3));
+
+          var nC_input = Number($("#nA_out").text() * $("#A2").val() + $("#nB_out").text() * $("#B2").val());
+          $("#nC_in").text(nC_input.toFixed(3));
+          $("#nC_out").text(preceptron(nC_input + Number($("#nC_bias").val())));
+      }
+      function sigmoid(x) {
+          return 1 / (1 + Math.exp(-x));
+      }
+      function preceptron(x) {
+          console.log(x);
+          return (x >= 0.5);
+      }
+  </script>
+</body>
